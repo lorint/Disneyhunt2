@@ -1,0 +1,146 @@
+
+<body id="pictureindex">
+  <nav class="top-bar" data-topbar >
+  <ul class="title-area">
+    <li class="name">
+      <h1><%= link_to 'Disney Tresure Hunt', root_path%></h1>
+    </li>
+     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <%if !current_user%>
+      <li ><%= link_to 'Badge Gallery', badges_path%></li>
+      <li class="active"><%= link_to 'Map of Badge Location', maps_path%></li>
+      <li ><%= link_to 'Photo Gallery of Guests', pictures_path%></li>
+      <li><%= link_to "Sign in", new_sessions_path%></li>
+      <% else %>
+      <li class="active" ><%= link_to 'Badge Gallery', badges_path%></li>
+      <li class = "has-dropdown">
+        <%= link_to 'Your Disney Memories', users_path%>
+          <ul class = "dropdown">
+            <li><%= link_to 'Your Badge Collection', my_badges_path%></li>
+          </ul>
+      </li>
+      <li class="active"><%= link_to 'Map of Badge Location', maps_path%></li>
+      <li ><%= link_to 'Photo Gallery of Guests', pictures_path%></li>
+      <li><%= link_to "Sign out", sessions_path, :method => :delete %></li>
+      <%end %>
+    </ul>
+  </section>
+</nav> 
+<!-- end of nav bar -->
+<!-- begin the display -->
+   <div class="row" style="margin-top:30px">
+    <div class ="panel callout radius">
+    <div class="large-12 columns" >
+        <%= image_tag "gallery.jpg" %>
+  </div>
+      
+    <div class="large-12 columns" style="margin-top:20px">
+   
+            <div class="hide-for-small panel">
+              <h3 style="text-align:center">Memories</h3>
+              <h5 class="subheader" style="text-align:center">Photos of our Disney guests creating memories and earning badges
+              </h5>
+            </div>
+          </div>
+
+    <div class="large-12 columns">
+            <div class="row">
+              <div class="large-12 columns">
+                <div class="row">
+                  <ul class="clearing-thumbs" data-clearing>
+                  <% @pictures.each do |p| %>
+                  <li class="large-3 medium-4 small-6 columns" style="margin-right:0px">
+                      <a href=<%=p.b_url(:original)%>><%= image_tag p.b_url(:medium) %></a>
+                        <p style="margin-bottom:0px">Taken on: <%= p.date%></p>
+                            <%if p.badge%>
+                         <td>Badge: <a href="#" data-reveal-id="myModal"><%=p.badge.name%></a>
+                          <div id="myModal" class="reveal-modal" data-reveal>
+                          <div id="badge_earned"></div>
+                          <a class="close-reveal-modal">&#215;</a>
+                        </div>
+                         </td>
+                         <%else%>
+                         <td>Badge: n/a</td>
+                        <%end%>
+                  <% end %>
+                </div>
+             <!--  <div class="row"> -->  
+              <div class="digg_pagination">
+                  <div class="page_info" >
+                    <%= page_entries_info @pictures %>
+                  </div>
+                  <%= will_paginate @pictures, :container => false %>
+                </div>
+             <!--  </div> -->
+         
+        <div class="row" style ="margin-top:15px">
+          <div class="large-12 columns">
+            <div class="panel">
+              <div class="row">
+
+                <div class="large-2 small-6 columns">
+                  <%=image_tag "mickey.png" %>
+                </div>
+
+                <div class="large-10 small-6 columns">
+                  <strong>This Site Is Managed By<hr/></strong>
+                  <p>Rocky Thach and Zeke</p>
+                </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       </div>
+  </div>
+
+          <footer class="row">
+            <div class="large-12 columns"><hr/>
+              <div class="row">
+                <div class="large-6 columns">
+                  <p>© Copyright no one at all. Go to town.</p>
+                </div>
+              </div>
+            </div>
+          </footer>
+    </div>
+  </div>
+</body>
+
+<!-- <h1>How did they earn the badges???</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Photo</th>
+      <th>Caption</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pictures.each do |p| %>
+      <tr>
+        <td><%= image_tag p.image(:medium) %></td>
+        <td><%= p.caption %></td>
+        <td><%= p.date%></td>
+        <td><label>Lat:</label><%= p.latitude%></td>
+        <td><label>Long:</label><%= p.longitude%></td>
+        <td><%= link_to 'Delete',p, method: :delete%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table> -->
+
+
+
+
+

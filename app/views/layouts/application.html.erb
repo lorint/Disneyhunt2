@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"> 
+  <head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "Disneyhunt" %></title>
+  <link href='http://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "vendor/modernizr","application" %>
+
+    <%= csrf_meta_tags %>
+  </head>
+
+    <%= yield %>
+    <%= javascript_include_tag "application" %>
+
+</html>

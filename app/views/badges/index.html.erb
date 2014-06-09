@@ -1,0 +1,74 @@
+ <body id="collection">
+  <nav class="top-bar" data-topbar >
+  <ul class="title-area">
+    <li class="name">
+      <h1><%= link_to 'Disney Tresure Hunt', root_path%></h1>
+    </li>
+     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <%if !current_user%>
+      <li ><%= link_to 'Badge Gallery', badges_path%></li>
+      <li class="active"><%= link_to 'Map of Badge Location', maps_path%></li>
+      <li ><%= link_to 'Photo Gallery of Guests', pictures_path%></li>
+      <li><%= link_to "Sign in", new_sessions_path%></li>
+      <% else %>
+      <li class="active" ><%= link_to 'Badge Gallery', badges_path%></li>
+      <li class = "has-dropdown">
+        <%= link_to 'Your Disney Memories', users_path%>
+          <ul class = "dropdown">
+            <li><%= link_to 'Your Badge Collection', my_badges_path%></li>
+          </ul>
+      </li>
+      <li class="active"><%= link_to 'Map of Badge Location', maps_path%></li>
+      <li ><%= link_to 'Photo Gallery of Guests', pictures_path%></li>
+      <li><%= link_to "Sign out", sessions_path, :method => :delete %></li>
+      <%end %>
+    </ul>
+  </section>
+</nav>
+<h1 style="text-align:center">Badge Gallery</h1>
+<div x-ng-app="">
+  <div x-ng-init="badges=<%=Badge.all.to_json%>" class="row">
+    <%if !current_user%>
+        <div x-ng-repeat="b in badges" class="large-3 columns small-6 columns">
+          <div class="panel">
+              <img ng-src="/assets/badges/{{b.url}}"%>
+              {{b.name}}
+          </div>
+        </div>
+      <%else%>
+        <% @badges.each do |b|%>
+          <div class="large-3 columns small-6 columns">
+              <div class="panel">
+                  <%= image_tag "badges/" + b.url%>
+                  <%= b.name%>
+                  <%= form_for @picture do |f| %>
+                    <%= f.hidden_field :badge_id ,value: b.id.to_s %>
+                    <%= f.file_field :image %>
+                    <%= f.submit%>
+                  <% end %> 
+              </div>
+          </div>
+        <%end%>
+    <%end%>    
+  </div>
+</div><!--close the ng-app -->
+
+
+  <footer class="row">
+    <div class="large-12 columns">
+      <hr/>
+      <div class="row">
+        <div class="large-6 columns">
+          <p>© Rocky Thach and Zeke.</p>
+        </div>
+        
+      </div>
+    </div>
+  </footer>
+</body>
